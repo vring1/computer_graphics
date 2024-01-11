@@ -168,21 +168,21 @@ int main()
         glm::vec3 EyePosition = glm::vec3(TmpEyePosition.x, TmpEyePosition.y, TmpEyePosition.z);
 
         float     Ka = 0.5f;
-        //float     Ka = 0.0f;
+        // float     Ka = 0.0f;
         glm::vec3 Oa(0.0f, 1.0f, 0.0f);
         glm::vec3 AmbientColor(Ka * Oa);
 
         float     Kd = 0.75f;
-        //float     Kd = 0.0f;
+        // float     Kd = 0.3f;
         glm::vec3 Od(0.0f, 1.0f, 0.0f);
         glm::vec3 DiffuseColor(Kd * Od);
 
         float     Ks = 0.9f;
-        //float     Ks = 0.0f;
+        // float     Ks = 0.7f;
         glm::vec3 Os(1.0f, 1.0f, 1.0f);
         glm::vec3 SpecularColor(Ks * Os);
 
-        float Shininess = 10.0f;
+        float Shininess = 20.0f;
         // float Shininess = 50.0f;
 
         // GLenum Error = GL_NO_ERROR;
