@@ -6,14 +6,15 @@
  * Default constructor. Creates a BezierSurface which is empty.
  */
 BezierSurface::BezierSurface() : frontfacing(true), nsubdivisions(3), VerticesOK(false), NormalsOK(false)
-{}
+{
+}
 
 /*
  * Parameterized constructor. Creates a BezierSurface from a file.
  * \param Filename - the name of the file containing the bezier patches.
  */
 BezierSurface::BezierSurface(std::string Filename) : frontfacing(true), nsubdivisions(3),
-                             VerticesOK(false), NormalsOK(false)
+                                                     VerticesOK(false), NormalsOK(false)
 {
     this->Read(Filename);
 }
@@ -22,8 +23,8 @@ BezierSurface::BezierSurface(std::string Filename) : frontfacing(true), nsubdivi
  * Parameterized constructor. Creates a BezierSurface from its parameters.
  * \param patches - the bezier patches which makes up the surface.
  */
-BezierSurface::BezierSurface(std::vector<BezierPatch> const& bezierpatches)
-             : frontfacing(true), nsubdivisions(3), VerticesOK(false), NormalsOK(false)
+BezierSurface::BezierSurface(std::vector<BezierPatch> const &bezierpatches)
+    : frontfacing(true), nsubdivisions(3), VerticesOK(false), NormalsOK(false)
 {
     this->BezierPatches = bezierpatches;
 }
@@ -32,38 +33,40 @@ BezierSurface::BezierSurface(std::vector<BezierPatch> const& bezierpatches)
  * Copy constructor, creates a new instance of its parameter.
  * \param Src - a BezierSurface
  */
-BezierSurface::BezierSurface(BezierSurface const& Src)
+BezierSurface::BezierSurface(BezierSurface const &Src)
 {
-    this->frontfacing   = Src.frontfacing;
+    this->frontfacing = Src.frontfacing;
     this->nsubdivisions = Src.nsubdivisions;
-    this->VerticesOK    = Src.VerticesOK;
-    this->NormalsOK     = Src.NormalsOK;
+    this->VerticesOK = Src.VerticesOK;
+    this->NormalsOK = Src.NormalsOK;
     this->BezierPatches = Src.BezierPatches;
-    this->vertices      = Src.vertices;
-    this->normals       = Src.normals;
+    this->vertices = Src.vertices;
+    this->normals = Src.normals;
 }
 
 /*
  * Destructor destroys the current instance of a BezierSurface.
  */
 BezierSurface::~BezierSurface()
-{}
+{
+}
 
 /*
  * Assignment operator, assigns its parameter to the current instance.
  * \param Src - the BezierSurface that should be assigned to the current instance.
  * \return the current instance of the BezierSurface.
  */
-BezierSurface& BezierSurface::operator=(BezierSurface const& Src)
+BezierSurface &BezierSurface::operator=(BezierSurface const &Src)
 {
-    if (this != &Src) {
-        this->frontfacing   = Src.frontfacing;
+    if (this != &Src)
+    {
+        this->frontfacing = Src.frontfacing;
         this->nsubdivisions = Src.nsubdivisions;
-        this->VerticesOK    = Src.VerticesOK;
-        this->NormalsOK     = Src.NormalsOK;
+        this->VerticesOK = Src.VerticesOK;
+        this->NormalsOK = Src.NormalsOK;
         this->BezierPatches = Src.BezierPatches;
-        this->vertices      = Src.vertices;
-        this->normals       = Src.normals;
+        this->vertices = Src.vertices;
+        this->normals = Src.normals;
     }
     return *this;
 }
@@ -76,7 +79,7 @@ bool BezierSurface::FrontFacing() const
 {
     return this->frontfacing;
 }
-    
+
 /*
  * Specifies if the surface is front facing or back facing.
  * \param frontfacing - true if the surface is front facing.
@@ -103,9 +106,9 @@ int BezierSurface::NumberOfSubdivisions() const
 int BezierSurface::NumberOfSubdivisions(int Nsubdivisions)
 {
     int OldNumberOfSubdivisions = this->nsubdivisions;
-    this->nsubdivisions         = Nsubdivisions;
-    this->VerticesOK            = false;
-    this->NormalsOK             = false;
+    this->nsubdivisions = Nsubdivisions;
+    this->VerticesOK = false;
+    this->NormalsOK = false;
     return OldNumberOfSubdivisions;
 }
 
@@ -113,34 +116,36 @@ int BezierSurface::NumberOfSubdivisions(int Nsubdivisions)
  * Computes the vertices of the BezierSurface.
  * \return a vector containing the vertices of the triangles that approximate the BezierSurface.
  */
-std::vector<glm::vec3> const& BezierSurface::Vertices()
+std::vector<glm::vec3> const &BezierSurface::Vertices()
 {
-    if (!this->VerticesOK) {
+    if (!this->VerticesOK)
+    {
         this->vertices.clear();
         this->normals.clear();
 
-        for (int patch = 0; patch < this->BezierPatches.size(); ++patch) {
+        for (int patch = 0; patch < this->BezierPatches.size(); ++patch)
+        {
             this->subdivide_bezierpatch(this->BezierPatches[patch], this->nsubdivisions);
         }
         this->VerticesOK = true;
-        this->NormalsOK  = true;
+        this->NormalsOK = true;
     }
     return this->vertices;
 }
 
 /*
  * Computes the normals of the BezierSurface.
- * \return a vector containing the normals of the vertices of the triangles 
+ * \return a vector containing the normals of the vertices of the triangles
  * that approximate the BezierSurface.
  */
-std::vector<glm::vec3> const& BezierSurface::Normals()
+std::vector<glm::vec3> const &BezierSurface::Normals()
 {
-    if (!this->NormalsOK) {
+    if (!this->NormalsOK)
+    {
         this->Vertices();
     }
     return this->normals;
 }
-
 
 // protected member functions
 
@@ -150,51 +155,53 @@ std::vector<glm::vec3> const& BezierSurface::Normals()
  * Read the patches from a file
  * \param FileNae - the name of the file containing the bezier patches.
  */
-void BezierSurface::Read(std::string const& FileName)
+void BezierSurface::Read(std::string const &FileName)
 {
     // States
-    int const NVERTEX        = 0;
-    int const READ_VERTICES  = 1;
-    int const PATCHNAME      = 2;
+    int const NVERTEX = 0;
+    int const READ_VERTICES = 1;
+    int const PATCHNAME = 2;
     int const SEARCH_PATCHES = 3;
-    int const READ_PATCHES   = 4;
+    int const READ_PATCHES = 4;
 
-    char   ch;
-    int    const MAX_BUFFER = 256;
-    char   InputBuffer[MAX_BUFFER];
-    
-    int    NumberOfVertices;
-    int    VertexNumber;
-    float  x;
-    float  y;
-    float  z;
+    char ch;
+    int const MAX_BUFFER = 256;
+    char InputBuffer[MAX_BUFFER];
 
-    float xmin =  1000.0f;
+    int NumberOfVertices;
+    int VertexNumber;
+    float x;
+    float y;
+    float z;
+
+    float xmin = 1000.0f;
     float xmax = -1000.0f;
-    float ymin =  1000.0f;
+    float ymin = 1000.0f;
     float ymax = -1000.0f;
-    float zmin =  1000.0f;
+    float zmin = 1000.0f;
     float zmax = -1000.0f;
 
-    char   PatchName[MAX_BUFFER];
-    int    PatchNumber;
-    int    index_11, index_12, index_13, index_14;
-    int    index_21, index_22, index_23, index_24;
-    int    index_31, index_32, index_33, index_34;
-    int    index_41, index_42, index_43, index_44;
+    char PatchName[MAX_BUFFER];
+    int PatchNumber;
+    int index_11, index_12, index_13, index_14;
+    int index_21, index_22, index_23, index_24;
+    int index_31, index_32, index_33, index_34;
+    int index_41, index_42, index_43, index_44;
 
     // The vertex list
     std::vector<glm::vec3> Vertices;
 
-
     std::ifstream data_file(FileName);
-    if (!data_file) {
+    if (!data_file)
+    {
         throw std::runtime_error("Error on opening file");
     }
-    
+
     int currentState = NVERTEX;
-    while (data_file.get(InputBuffer, MAX_BUFFER, '\n')) {
-        if (data_file.get(ch) && ch != '\n') {
+    while (data_file.get(InputBuffer, MAX_BUFFER, '\n'))
+    {
+        if (data_file.get(ch) && ch != '\n')
+        {
             data_file.close();
             throw std::runtime_error("Eof on data file");
         }
@@ -220,112 +227,133 @@ void BezierSurface::Read(std::string const& FileName)
         //           &index_21, &index_22, &index_23, &index_24,
         //           &index_31, &index_32, &index_33, &index_34,
         //           &index_41, &index_42, &index_43, &index_44, &facing)
-    
-        switch (currentState) {
-            case NVERTEX: {
-                if (InputBuffer[0] != '#') {
-                    if (sscanf(InputBuffer, "%d", &NumberOfVertices) != 1) {
-                        throw std::runtime_error("Wrong number of vertices in file");
-                    }
-                    currentState = READ_VERTICES;
-                }
-                break;
-            }
-            case READ_VERTICES: {
-                if (InputBuffer[0] != '#') {
-                    if (sscanf(InputBuffer, "%d%f%f%f",
-                               &VertexNumber, &x, &y, &z) != 4) {
-                        throw std::runtime_error("vertex not found in data file");
-                    }
-                    else {
-                        xmin = std::min(xmin, x);
-                        xmax = std::max(xmax, x);
-                        ymin = std::min(ymin, y);
-                        ymax = std::max(ymax, y);
-                        zmin = std::min(zmin, z);
-                        zmax = std::max(zmax, z);
-            
-                        // insert the vertex in a data structure
-                        glm::vec3 Vertex(x, y, z);
-                        Vertices.push_back(Vertex);
 
-                        if (VertexNumber == NumberOfVertices) {
-                            currentState = PATCHNAME;
-                        }
-                    }
+        switch (currentState)
+        {
+        case NVERTEX:
+        {
+            if (InputBuffer[0] != '#')
+            {
+                if (sscanf(InputBuffer, "%d", &NumberOfVertices) != 1)
+                {
+                    throw std::runtime_error("Wrong number of vertices in file");
                 }
-                break;
+                currentState = READ_VERTICES;
             }
-            case PATCHNAME: {
-                if (InputBuffer[0] == '#') {
-                    if (strlen(InputBuffer) > 2) {
-                        // read the name of the patch
-            
-                        if (sscanf(InputBuffer, "# %s", PatchName) != 1) {
-                            throw std::runtime_error("patch name not found in data file");
-                        }
-                        currentState = SEARCH_PATCHES;
-                    }
+            break;
+        }
+        case READ_VERTICES:
+        {
+            if (InputBuffer[0] != '#')
+            {
+                if (sscanf(InputBuffer, "%d%f%f%f",
+                           &VertexNumber, &x, &y, &z) != 4)
+                {
+                    throw std::runtime_error("vertex not found in data file");
                 }
-                break;
-            }
-            case SEARCH_PATCHES:
-            case READ_PATCHES: {
-                if (InputBuffer[0] == '#') {
-                    if (currentState == READ_PATCHES) {
+                else
+                {
+                    xmin = std::min(xmin, x);
+                    xmax = std::max(xmax, x);
+                    ymin = std::min(ymin, y);
+                    ymax = std::max(ymax, y);
+                    zmin = std::min(zmin, z);
+                    zmax = std::max(zmax, z);
+
+                    // insert the vertex in a data structure
+                    glm::vec3 Vertex(x, y, z);
+                    Vertices.push_back(Vertex);
+
+                    if (VertexNumber == NumberOfVertices)
+                    {
                         currentState = PATCHNAME;
                     }
                 }
-                else {
-                    currentState = READ_PATCHES;
+            }
+            break;
+        }
+        case PATCHNAME:
+        {
+            if (InputBuffer[0] == '#')
+            {
+                if (strlen(InputBuffer) > 2)
+                {
+                    // read the name of the patch
 
-                    if (sscanf(InputBuffer, "%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d",
-                               &PatchNumber,
-                               &index_11, &index_12, &index_13, &index_14,
-                               &index_21, &index_22, &index_23, &index_24,
-                               &index_31, &index_32, &index_33, &index_34,
-                               &index_41, &index_42, &index_43, &index_44) != 17) {
-                        throw std::runtime_error("No patch found in data file");
+                    if (sscanf(InputBuffer, "# %s", PatchName) != 1)
+                    {
+                        throw std::runtime_error("patch name not found in data file");
                     }
-                    else {
-                        // insert patch in a data structure
-                        BezierPatch BPatch;
-
-                        // First row
-                        BPatch[1][1] = Vertices[index_11 - 1];
-                        BPatch[1][2] = Vertices[index_12 - 1];
-                        BPatch[1][3] = Vertices[index_13 - 1];
-                        BPatch[1][4] = Vertices[index_14 - 1];
-
-                        // Second row
-                        BPatch[2][1] = Vertices[index_21 - 1];
-                        BPatch[2][2] = Vertices[index_22 - 1];
-                        BPatch[2][3] = Vertices[index_23 - 1];
-                        BPatch[2][4] = Vertices[index_24 - 1];
-            
-                        // Third row
-                        BPatch[3][1] = Vertices[index_31 - 1];
-                        BPatch[3][2] = Vertices[index_32 - 1];
-                        BPatch[3][3] = Vertices[index_33 - 1];
-                        BPatch[3][4] = Vertices[index_34 - 1];
-            
-                        // Forth row
-                        BPatch[4][1] = Vertices[index_41 - 1];
-                        BPatch[4][2] = Vertices[index_42 - 1];
-                        BPatch[4][3] = Vertices[index_43 - 1];
-                        BPatch[4][4] = Vertices[index_44 - 1];
-            
-                        this->BezierPatches.push_back(BPatch);
-                    }
+                    currentState = SEARCH_PATCHES;
                 }
-                break;
             }
-            default: {
-                break;
+            break;
+        }
+        case SEARCH_PATCHES:
+        case READ_PATCHES:
+        {
+            if (InputBuffer[0] == '#')
+            {
+                if (currentState == READ_PATCHES)
+                {
+                    currentState = PATCHNAME;
+                }
             }
+            else
+            {
+                currentState = READ_PATCHES;
+
+                if (sscanf(InputBuffer, "%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d",
+                           &PatchNumber,
+                           &index_11, &index_12, &index_13, &index_14,
+                           &index_21, &index_22, &index_23, &index_24,
+                           &index_31, &index_32, &index_33, &index_34,
+                           &index_41, &index_42, &index_43, &index_44) != 17)
+                {
+                    throw std::runtime_error("No patch found in data file");
+                }
+                else
+                {
+                    // insert patch in a data structure
+                    BezierPatch BPatch;
+
+                    // First row
+                    BPatch[1][1] = Vertices[index_11 - 1];
+                    BPatch[1][2] = Vertices[index_12 - 1];
+                    BPatch[1][3] = Vertices[index_13 - 1];
+                    BPatch[1][4] = Vertices[index_14 - 1];
+
+                    // Second row
+                    BPatch[2][1] = Vertices[index_21 - 1];
+                    BPatch[2][2] = Vertices[index_22 - 1];
+                    BPatch[2][3] = Vertices[index_23 - 1];
+                    BPatch[2][4] = Vertices[index_24 - 1];
+
+                    // Third row
+                    BPatch[3][1] = Vertices[index_31 - 1];
+                    BPatch[3][2] = Vertices[index_32 - 1];
+                    BPatch[3][3] = Vertices[index_33 - 1];
+                    BPatch[3][4] = Vertices[index_34 - 1];
+
+                    // Forth row
+                    BPatch[4][1] = Vertices[index_41 - 1];
+                    BPatch[4][2] = Vertices[index_42 - 1];
+                    BPatch[4][3] = Vertices[index_43 - 1];
+                    BPatch[4][4] = Vertices[index_44 - 1];
+
+                    this->BezierPatches.push_back(BPatch);
+                }
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
         }
     }
-    if (!data_file.eof()) {
+    if (!data_file.eof())
+    {
         throw std::runtime_error("Something strange happend on data file");
     }
     data_file.close();
@@ -356,31 +384,33 @@ void BezierSurface::PrintIndexMatrix(int PatchNumber,
                                      int index_31, int index_32, int index_33, int index_34,
                                      int index_41, int index_42, int index_43, int index_44) const
 {
-    std::cout << "patch number: " 
-              << std::setw(2) << PatchNumber << std::endl << std::flush;
+    std::cout << "patch number: "
+              << std::setw(2) << PatchNumber << std::endl
+              << std::flush;
 
-    std::cout << "patch indices: " << std::endl << '\t'
-              << std::setw(6) << index_11 << ", " 
-              << std::setw(6) << index_12 << ", " 
-              << std::setw(6) << index_13 << ", " 
+    std::cout << "patch indices: " << std::endl
+              << '\t'
+              << std::setw(6) << index_11 << ", "
+              << std::setw(6) << index_12 << ", "
+              << std::setw(6) << index_13 << ", "
               << std::setw(6) << index_14 << std::endl;
-            
+
     std::cout << '\t'
-              << std::setw(6) << index_21 << ", " 
+              << std::setw(6) << index_21 << ", "
               << std::setw(6) << index_22 << ", "
-              << std::setw(6) << index_23 << ", " 
+              << std::setw(6) << index_23 << ", "
               << std::setw(6) << index_24 << std::endl;
-            
+
     std::cout << '\t'
-              << std::setw(6) << index_31 << ", " 
+              << std::setw(6) << index_31 << ", "
               << std::setw(6) << index_32 << ", "
-              << std::setw(6) << index_33 << ", " 
+              << std::setw(6) << index_33 << ", "
               << std::setw(6) << index_34 << std::endl;
-            
+
     std::cout << '\t'
-              << std::setw(6) << index_41 << ", " 
+              << std::setw(6) << index_41 << ", "
               << std::setw(6) << index_42 << ", "
-              << std::setw(6) << index_43 << ", " 
+              << std::setw(6) << index_43 << ", "
               << std::setw(6) << index_44 << std::endl;
 }
 
@@ -389,9 +419,75 @@ void BezierSurface::PrintIndexMatrix(int PatchNumber,
  * \param patch - the bezierpatch which should be subdivided.
  * \param level - the number of times the patch should be subdivided.
  */
-void BezierSurface::subdivide_bezierpatch(BezierPatch const& G, int level)
+void BezierSurface::subdivide_bezierpatch(BezierPatch const &G, int level)
 {
-    std::cout << "BezierSurface::subdivide_bezierpatch(BezierPatch&, int): Not implemented yet!" << std::endl;
+    // std::cout << "BezierSurface::subdivide_bezierpatch(BezierPatch&, int): Not implemented yet!" << std::endl;
+    if (level == 0)
+    {
+        // make triangles
+        //  compute the normals of the four corners
+        glm::vec3 N_11 = glm::normalize(glm::cross(G[2][1] - G[1][1], G[1][2] - G[1][1]));
+        glm::vec3 N_14 = glm::normalize(glm::cross(G[1][3] - G[1][4], G[2][4] - G[1][4]));
+        glm::vec3 N_41 = glm::normalize(glm::cross(G[4][2] - G[4][1], G[3][1] - G[4][1]));
+        glm::vec3 N_44 = glm::normalize(glm::cross(G[3][4] - G[4][4], G[4][3] - G[4][4]));
+
+        if (this->frontfacing)
+        {
+            this->vertices.push_back(G[1][1]);
+            this->normals.push_back(N_11);
+
+            this->vertices.push_back(G[4][1]);
+            this->normals.push_back(N_41);
+
+            this->vertices.push_back(G[1][4]);
+            this->normals.push_back(N_14);
+
+            // compute normals of the second triangle
+            this->vertices.push_back(G[4][1]);
+            this->normals.push_back(N_41);
+
+            this->vertices.push_back(G[4][4]);
+            this->normals.push_back(N_44);
+
+            this->vertices.push_back(G[1][4]);
+            this->normals.push_back(N_14);
+        }
+        else
+        {
+            this->vertices.push_back(G[1][1]);
+            this->normals.push_back(-N_11);
+
+            this->vertices.push_back(G[1][4]);
+            this->normals.push_back(-N_14);
+
+            this->vertices.push_back(G[4][1]);
+            this->normals.push_back(-N_41);
+
+            // compute normals of the second triangle
+            this->vertices.push_back(G[4][1]);
+            this->normals.push_back(-N_41);
+
+            this->vertices.push_back(G[1][4]);
+            this->normals.push_back(-N_14);
+
+            this->vertices.push_back(G[4][4]);
+            this->normals.push_back(-N_44);
+        }
+    }
+    else
+    {
+        BezierPatch G_11 = glm::transpose(DBL) * G * DBL;
+        this->subdivide_bezierpatch(G_11, level - 1);
+
+        BezierPatch G_14 = glm::transpose(DBR) * G * DBL;
+        this->subdivide_bezierpatch(G_14, level - 1);
+
+        BezierPatch G_41 = glm::transpose(DBL) * G * DBR;
+        this->subdivide_bezierpatch(G_41, level - 1);
+
+        BezierPatch G_44 = glm::transpose(DBR) * G * DBR;
+        this->subdivide_bezierpatch(G_44, level - 1);
+    }
 }
 
 /*
@@ -401,10 +497,10 @@ void BezierSurface::subdivide_bezierpatch(BezierPatch const& G, int level)
 /*
  * Initialization of the static private member M
  */
-glm::mat4x4 BezierSurface::M = glm::mat4x4(glm::vec4(-1.0f,  3.0f, -3.0f, 1.0f),
-                                           glm::vec4( 3.0f, -6.0f,  3.0f, 0.0f),
-                                           glm::vec4(-3.0f,  3.0f,  0.0f, 0.0f),
-                                           glm::vec4( 1.0f,  0.0f,  0.0f, 0.0f));
+glm::mat4x4 BezierSurface::M = glm::mat4x4(glm::vec4(-1.0f, 3.0f, -3.0f, 1.0f),
+                                           glm::vec4(3.0f, -6.0f, 3.0f, 0.0f),
+                                           glm::vec4(-3.0f, 3.0f, 0.0f, 0.0f),
+                                           glm::vec4(1.0f, 0.0f, 0.0f, 0.0f));
 
 /*
  * Initialization of the static private member DLB
@@ -412,7 +508,8 @@ glm::mat4x4 BezierSurface::M = glm::mat4x4(glm::vec4(-1.0f,  3.0f, -3.0f, 1.0f),
 glm::mat4x4 BezierSurface::DBL = glm::mat4x4(glm::vec4(8.0f, 0.0f, 0.0f, 0.0f),
                                              glm::vec4(4.0f, 4.0f, 0.0f, 0.0f),
                                              glm::vec4(2.0f, 4.0f, 2.0f, 0.0f),
-                                             glm::vec4(1.0f, 3.0f, 3.0f, 1.0f)) / 8.0f;
+                                             glm::vec4(1.0f, 3.0f, 3.0f, 1.0f)) /
+                                 8.0f;
 
 /*
  * Initialization of the static private member DRB
@@ -420,5 +517,5 @@ glm::mat4x4 BezierSurface::DBL = glm::mat4x4(glm::vec4(8.0f, 0.0f, 0.0f, 0.0f),
 glm::mat4x4 BezierSurface::DBR = glm::mat4x4(glm::vec4(1.0f, 3.0f, 3.0f, 1.0f),
                                              glm::vec4(0.0f, 2.0f, 4.0f, 2.0f),
                                              glm::vec4(0.0f, 0.0f, 4.0f, 4.0f),
-                                             glm::vec4(0.0f, 0.0f, 0.0f, 8.0f)) / 8.0f;
-
+                                             glm::vec4(0.0f, 0.0f, 0.0f, 8.0f)) /
+                                 8.0f;

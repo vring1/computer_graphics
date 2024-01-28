@@ -27,15 +27,15 @@ ParametricSurface::ParametricSurface()
 ParametricSurface::ParametricSurface(float umin, float umax, int M,
                                      float vmin, float vmax, int N,
                                      bool frontfacing, bool debug)
-                 : M(M), N(N), umin(umin), umax(umax), vmin(vmin), vmax(vmax),
-                   frontfacing(frontfacing), debug(debug),
-                   validdata(false)
+    : M(M), N(N), umin(umin), umax(umax), vmin(vmin), vmax(vmax),
+      frontfacing(frontfacing), debug(debug),
+      validdata(false)
 {
     Trace("ParametricSurface", "ParametricSurface(float, float, int, float, float, int, bool, bool)");
 
     this->delta_u = (this->umax - this->umin) / M;
     this->delta_v = (this->vmax - this->vmin) / N;
-    
+
     this->vertices.clear();
     this->normals.clear();
 
@@ -46,17 +46,17 @@ ParametricSurface::ParametricSurface(float umin, float umax, int M,
  * Copy constructor. Makes a copy of the parameter.
  * \param newparamsurface - the parametric surface to be copied.
  */
-ParametricSurface::ParametricSurface(ParametricSurface const& newparamsurface)
-                 : M(newparamsurface.M), N(newparamsurface.N),
-                   umin(newparamsurface.umin), umax(newparamsurface.umax),
-                   delta_u(newparamsurface.delta_u),
-                   vmin(newparamsurface.vmin), vmax(newparamsurface.vmax),
-                   delta_v(newparamsurface.delta_v),
-                   frontfacing(newparamsurface.frontfacing), 
-                   debug(newparamsurface.debug),
-                   validdata(false),
-                   vertices(newparamsurface.vertices),
-                   normals(newparamsurface.normals)
+ParametricSurface::ParametricSurface(ParametricSurface const &newparamsurface)
+    : M(newparamsurface.M), N(newparamsurface.N),
+      umin(newparamsurface.umin), umax(newparamsurface.umax),
+      delta_u(newparamsurface.delta_u),
+      vmin(newparamsurface.vmin), vmax(newparamsurface.vmax),
+      delta_v(newparamsurface.delta_v),
+      frontfacing(newparamsurface.frontfacing),
+      debug(newparamsurface.debug),
+      validdata(false),
+      vertices(newparamsurface.vertices),
+      normals(newparamsurface.normals)
 {
     Trace("ParametricSurface", "ParametricSurface(ParametricSurface const&)");
 
@@ -74,27 +74,28 @@ ParametricSurface::~ParametricSurface()
 /*
  * Assignment operator. Assigns the parameter to this instance of a
  * parametric surface.
- * \param newparamsurface - the parametric surface that should be 
+ * \param newparamsurface - the parametric surface that should be
  *                          assigned to this instance.
  */
-ParametricSurface& ParametricSurface::operator=(ParametricSurface const& newparamsurface)
+ParametricSurface &ParametricSurface::operator=(ParametricSurface const &newparamsurface)
 {
     Trace("ParametricSurface", "operator=(ParametricSurface const&)");
 
-    if (this != &newparamsurface) {
-        this->umin    = newparamsurface.umin;
-        this->umax    = newparamsurface.umax;
+    if (this != &newparamsurface)
+    {
+        this->umin = newparamsurface.umin;
+        this->umax = newparamsurface.umax;
         this->M = newparamsurface.M;
         this->delta_u = newparamsurface.delta_u;
-        this->vmin    = newparamsurface.vmin;
-        this->vmax    = newparamsurface.vmax;
+        this->vmin = newparamsurface.vmin;
+        this->vmax = newparamsurface.vmax;
         this->N = newparamsurface.N;
         this->delta_v = newparamsurface.delta_v;
         this->frontfacing = newparamsurface.frontfacing;
-        this->debug       = newparamsurface.debug;
-        this->validdata   = newparamsurface.validdata;
-        this->vertices    = newparamsurface.vertices;
-        this->normals     = newparamsurface.normals;
+        this->debug = newparamsurface.debug;
+        this->validdata = newparamsurface.validdata;
+        this->vertices = newparamsurface.vertices;
+        this->normals = newparamsurface.normals;
         this->DataHasChanged(true);
     }
     return *this;
@@ -113,7 +114,7 @@ float ParametricSurface::Umin() const
  * Changes the left limit of the u-parameter.
  * \param newUmin - the new left limit of the u-parameter.
  */
-void ParametricSurface:: Umin(float newUmin)
+void ParametricSurface::Umin(float newUmin)
 {
     this->umin = newUmin;
     this->DataHasChanged(true);
@@ -146,16 +147,16 @@ int ParametricSurface::Usamples() const
 {
     return this->M;
 }
-    
+
 /*
  * Changes the number of samples in the u-direction.
  * \param M - the new number of u-samples.
  */
- void ParametricSurface::Usamples(int M)
- {
-     this->M = M;
-     this->DataHasChanged(true);
- }  
+void ParametricSurface::Usamples(int M)
+{
+    this->M = M;
+    this->DataHasChanged(true);
+}
 
 /*
  * The left limit of the v-parameter.
@@ -203,7 +204,7 @@ int ParametricSurface::Vsamples() const
 {
     return this->N;
 }
-    
+
 /*
  * Changes the number of samples in the v-direction.
  * \param N - the new number of v-samples.
@@ -217,7 +218,7 @@ void ParametricSurface::Vsamples(int N)
 /*
  * Reports if the surface is front facing.
  * \return true if the surface is front facing, else false.
- */ 
+ */
 bool ParametricSurface::FrontFacing() const
 {
     return this->frontfacing;
@@ -229,10 +230,11 @@ bool ParametricSurface::FrontFacing() const
  */
 void ParametricSurface::FrontFacing(bool frontfacing)
 {
-    if (this->frontfacing != frontfacing) {
+    if (this->frontfacing != frontfacing)
+    {
         this->frontfacing = frontfacing;
         this->DataHasChanged(true);
-    } 
+    }
 }
 
 /*
@@ -243,16 +245,17 @@ bool ParametricSurface::Debug() const
 {
     return this->debug;
 }
-    
+
 /*
  * Cantrols which quadrilaterals should be shown.
  * It makes it easier to whatch the surface.
- * \parm debug - if false all quadrilaterals are shown, 
+ * \parm debug - if false all quadrilaterals are shown,
  *               else only every other quadrilateral are shown.
  */
 void ParametricSurface::Debug(bool debug)
 {
-    if (this->debug != debug) {
+    if (this->debug != debug)
+    {
         // change the debug mode
         this->debug = debug;
         this->DataHasChanged(true);
@@ -263,11 +266,12 @@ void ParametricSurface::Debug(bool debug)
  * The coordinates of the vertices.
  * \return a vector containing the coordinates of the points.
  */
-std::vector<glm::vec3> const& ParametricSurface::Vertices()
+std::vector<glm::vec3> const &ParametricSurface::Vertices()
 {
     Trace("ParametricSurface", "Vertices()");
-    
-    if (this->DataHasChanged()) {
+
+    if (this->DataHasChanged())
+    {
         this->SampleSurface();
     }
     return this->vertices;
@@ -277,11 +281,12 @@ std::vector<glm::vec3> const& ParametricSurface::Vertices()
  * The coordinates of the normals.
  * \return a vector containing the coordinates of the normals.
  */
-std::vector<glm::vec3> const& ParametricSurface::Normals()
+std::vector<glm::vec3> const &ParametricSurface::Normals()
 {
     Trace("ParametricSurface", "Normals()");
-    
-    if (this->DataHasChanged()) {
+
+    if (this->DataHasChanged())
+    {
         this->SampleSurface();
     }
     return this->normals;
@@ -324,13 +329,38 @@ void ParametricSurface::SampleSurface()
 {
     Trace("ParametricSurface", "SampleSurface()");
 
-    std::cout << "ParametricSurface::SampleSurface(): Not implemented yet!" << std::endl;
-    
+    // std::cout << "ParametricSurface::SampleSurface(): Not implemented yet!" << std::endl;
+    for (float u = umin; u <= umax; u += delta_u)
+    {
+        for (float v = vmin; v <= vmax; v += delta_v)
+        {
+            glm::vec3 v1 = Vertex(u, v);
+            glm::vec3 n1 = Normal(u, v);
+
+            glm::vec3 v2 = Vertex(u + delta_u, v);
+            glm::vec3 n2 = Normal(u + delta_u, v);
+
+            glm::vec3 v3 = Vertex(u + delta_u, v + delta_v);
+            glm::vec3 n3 = Normal(u + delta_u, v + delta_v);
+
+            glm::vec3 v4 = Vertex(u, v + delta_v);
+            glm::vec3 n4 = Normal(u, v + delta_v);
+
+            if (this->frontfacing)
+            {
+                this->CreateFrontFacingData(v1, v2, v3, v4, this->vertices, n1, n2, n3, n4, this->normals);
+            }
+            else
+            {
+                this->CreateBackFacingData(v1, v2, v3, v4, this->vertices, n1, n2, n3, n4, this->normals);
+            }
+        }
+    }
     this->validdata = true;
 }
 
 /*
- * Generates two front facing triangles from a quadrilateral using counter clockwize order, 
+ * Generates two front facing triangles from a quadrilateral using counter clockwize order,
  * and specifying the diagonal as the first edge.
  * \param V_lower_left - the lower left vertex.
  * \param V_lower_right - the lower right vertex.
@@ -343,12 +373,12 @@ void ParametricSurface::SampleSurface()
  * \param N_upper_left - the upper left normal.
  * \param normals - a vector containing the normals.
  */
-void ParametricSurface::CreateFrontFacingData(glm::vec3 const& V_lower_left,  glm::vec3 const& V_lower_right,
-                                              glm::vec3 const& V_upper_right, glm::vec3 const& V_upper_left,
-                                              std::vector<glm::vec3>& vertices,
-                                              glm::vec3 const& N_lower_left,  glm::vec3 const& N_lower_right,
-                                              glm::vec3 const& N_upper_right, glm::vec3 const& N_upper_left,
-                                              std::vector<glm::vec3>& normals) const
+void ParametricSurface::CreateFrontFacingData(glm::vec3 const &V_lower_left, glm::vec3 const &V_lower_right,
+                                              glm::vec3 const &V_upper_right, glm::vec3 const &V_upper_left,
+                                              std::vector<glm::vec3> &vertices,
+                                              glm::vec3 const &N_lower_left, glm::vec3 const &N_lower_right,
+                                              glm::vec3 const &N_upper_right, glm::vec3 const &N_upper_left,
+                                              std::vector<glm::vec3> &normals) const
 {
     Trace("ParametricSurface", "CreateFrontFacingData(...)");
 
@@ -359,7 +389,7 @@ void ParametricSurface::CreateFrontFacingData(glm::vec3 const& V_lower_left,  gl
 
     vertices.push_back(V_upper_right);
     normals.push_back(N_upper_right);
-                
+
     vertices.push_back(V_upper_left);
     normals.push_back(N_upper_left);
 
@@ -369,13 +399,13 @@ void ParametricSurface::CreateFrontFacingData(glm::vec3 const& V_lower_left,  gl
 
     vertices.push_back(V_lower_left);
     normals.push_back(N_lower_left);
-                
+
     vertices.push_back(V_lower_right);
     normals.push_back(N_lower_right);
 }
 
 /*
- * Generates two back facing triangles from a quadrilateral using clockwize order, 
+ * Generates two back facing triangles from a quadrilateral using clockwize order,
  * and specifying the diagonal as the first edge.
  * \param V_lower_left - the lower left vertex.
  * \param V_lower_right - the lower right vertex.
@@ -388,12 +418,12 @@ void ParametricSurface::CreateFrontFacingData(glm::vec3 const& V_lower_left,  gl
  * \param N_upper_left - the upper left normal.
  * \param normals - a vector containing the normals.
  */
-void ParametricSurface::CreateBackFacingData(glm::vec3 const& V_lower_left,  glm::vec3 const& V_lower_right,
-                                             glm::vec3 const& V_upper_right, glm::vec3 const& V_upper_left,
-                                             std::vector<glm::vec3>& vertices,
-                                             glm::vec3 const& N_lower_left,  glm::vec3 const& N_lower_right,
-                                             glm::vec3 const& N_upper_right, glm::vec3 const& N_upper_left,
-                                             std::vector<glm::vec3>& normals) const
+void ParametricSurface::CreateBackFacingData(glm::vec3 const &V_lower_left, glm::vec3 const &V_lower_right,
+                                             glm::vec3 const &V_upper_right, glm::vec3 const &V_upper_left,
+                                             std::vector<glm::vec3> &vertices,
+                                             glm::vec3 const &N_lower_left, glm::vec3 const &N_lower_right,
+                                             glm::vec3 const &N_upper_right, glm::vec3 const &N_upper_left,
+                                             std::vector<glm::vec3> &normals) const
 {
     Trace("ParametricSurface", "CreateBackFacingData(...)");
 
@@ -404,17 +434,17 @@ void ParametricSurface::CreateBackFacingData(glm::vec3 const& V_lower_left,  glm
 
     vertices.push_back(V_lower_left);
     normals.push_back(-N_lower_left);
-                
+
     vertices.push_back(V_upper_left);
     normals.push_back(-N_upper_left);
-                
+
     // Add the second Triangle clockwize starting with the diagonal
     vertices.push_back(V_lower_left);
     normals.push_back(-N_lower_left);
 
     vertices.push_back(V_upper_right);
     normals.push_back(-N_upper_right);
-                
+
     vertices.push_back(V_lower_right);
     normals.push_back(-N_lower_right);
 }
