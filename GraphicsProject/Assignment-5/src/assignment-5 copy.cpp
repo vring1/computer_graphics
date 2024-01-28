@@ -46,35 +46,7 @@ glm::mat4x4 DRB;
  */
 void Sample(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {
-    //std::cout << "Sample(BezierRow&, int, std::vector<glm::vec3>&): Not implemented yet!" << std::endl;
-    // Push first vertex
-    Vertices.push_back(G[1]);
-    
-    // Calculate coefficient matrix C, note BasisMatrix is a global variable
-    BezierRow coefficients = G * BasisMatrix;
-    float t1 = 0;
-    float t2 = 0;
-    float t3 = 0;
-
-    for (int i = 1; i < N; i++)
-    {
-        // Calculate delta val in this iteration
-        float delta = (float)i / (float)N;
-
-        // here we calculate the paramters of the vector t
-        t1 = delta;
-        t2 = t1 * t1;
-        t3 = t1 * t2;
-        glm::vec4 t = glm::vec4(t3,t2,t1,1.0f);
-
-        //multiply coefficients by t and push two times
-        glm::vec3 res = coefficients * t;
-        Vertices.push_back(res);
-        Vertices.push_back(res);
-    }
-
-    //Push last vertex
-    Vertices.push_back(G[4]);
+    std::cout << "Sample(BezierRow&, int, std::vector<glm::vec3>&): Not implemented yet!" << std::endl;
 }
 
 
@@ -86,28 +58,7 @@ void Sample(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
  */
 void SampleFWD(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {
-    //std::cout << "SampleFWD(BezierRow&, int, std::vector<glm::vec3>&): Not implemented yet!" << std::endl;
-    float delta1 = 1.0f / (float)N;
-    float delta2 = delta1 * delta1;
-    float delta3 = delta2 * delta1;
-
-    BezierRow coefficients = G * BasisMatrix;
-    BezierRow F(coefficients[4], 
-                coefficients[1] * delta3 + coefficients[2] * delta2 + coefficients[3]*delta1, 
-                6.0f * coefficients[1]*delta3 + 2.0f * coefficients[2]*delta2, 
-                6.0f * coefficients[1]*delta3);
-
-    Vertices.push_back(G[1]);
-    for (int i = 2; i < N; i++)
-    {
-        F[1] += F[2];
-        F[2] += F[3];
-        F[3] += F[4];
-        Vertices.push_back(F[1]);
-        Vertices.push_back(F[1]);
-    }
-    Vertices.push_back(G[4]);
-    
+    std::cout << "SampleFWD(BezierRow&, int, std::vector<glm::vec3>&): Not implemented yet!" << std::endl;
 }
 
 /**
@@ -118,16 +69,7 @@ void SampleFWD(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
  */
 void SubDivide(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
 {
-    if (N == 0)
-    {
-        Vertices.push_back(G[1]);
-        Vertices.push_back(G[4]);
-    }
-    else
-    {
-        SubDivide(G * DLB, N - 1, Vertices);
-        SubDivide(G * DRB, N - 1, Vertices);
-    }
+    std::cout << "SubDivide(BezierRow&, int, std::vector<glm::vec3>&): Not implemented yet!" << std::endl;
 }
 
 /**
@@ -137,31 +79,8 @@ void SubDivide(BezierRow const& G, int N, std::vector<glm::vec3>& Vertices)
  */
 bool Flatness(BezierRow const& G, float epsilon)
 {
-    glm::vec3 G1G4(G[4] - G[1]);
-    if (glm::length(G1G4) < epsilon)
-        return false;
-    
-    glm::vec3 U(glm::normalize(G1G4));
-    glm::vec3 G1G2(G[2] - G[1]);
-    if(glm::dot(G1G2, U) < 0.0f)
-        return false;
-
-    glm::vec3 G4G3(G[3] - G[4]);
-    if(glm::dot(G4G3, U) > 0.0f)
-        return false;
-
-    if (glm::dot(G1G2, U) > glm::length(G1G4))
-        return false;
-    
-    if (-glm::dot(G4G3, U) > glm::length(G1G4))
-        return false;
-    
-    if (glm::length(G1G2 - (glm::dot(G1G2, U) * U)) > epsilon)
-        return false;
-    
-    if (glm::length(G4G3 - (glm::dot(G4G3, U) * U)) > epsilon)
-        return false;
-
+   std::cout << "Flatness(BezierRow&, float): Not implemented yet!" << std::endl;
+ 
     return true;
 }
 
@@ -174,17 +93,7 @@ bool Flatness(BezierRow const& G, float epsilon)
  */
 void SubDivide(BezierRow const& G, float epsilon, std::vector<glm::vec3>& Vertices, int N)
 {
-    //std::cout << "SubDivide(BezierRow&, float, std::vector<glm::vec3>&, int): Not implemented yet!" << std::endl;
-    if (N == 0 || Flatness(G, epsilon))
-    {
-        Vertices.push_back(G[1]);
-        Vertices.push_back(G[4]);
-    }
-    else
-    {
-        SubDivide(G * DLB, epsilon, Vertices, N - 1);
-        SubDivide(G * DRB, epsilon, Vertices, N - 1);
-    }
+    std::cout << "SubDivide(BezierRow&, float, std::vector<glm::vec3>&, int): Not implemented yet!" << std::endl;
 }
 
 /**
